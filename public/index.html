@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контроль реле</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Контроль реле</h1>
+    <div class="button-container">
+        <button onclick="sendCommand('RESTART_RELAY1')">Перезагрузить реле 1</button>
+        <button onclick="sendCommand('RESTART_RELAY2')">Перезагрузить реле 2</button>
+        <button onclick="sendCommand('RESTART_RELAY3')">Перезагрузить реле 3</button>
+        <button onclick="sendCommand('RESTART_RELAY4')">Перезагрузить реле 4</button>
+    </div>
+
+    <div id="response"></div>
+
+    <script>
+        function sendCommand(command) {
+            fetch('/restart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ command }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('response').innerText = data;
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'Error: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>
